@@ -1,0 +1,22 @@
+# if one wants to have a centralized alertmanager, remove it from "agent" Prometheus
+
+- type: remove
+  path: /instance_groups/name=alertmanager
+
+- type: remove
+  path: /instance_groups/name=prometheus2/jobs/name=prometheus2/properties/prometheus/rule_files
+
+- type: remove
+  path: /instance_groups/name=prometheus2/jobs/name=postgres_alerts
+
+- type: remove
+  path: /instance_groups/name=prometheus2/jobs/name=prometheus_alerts
+
+- type: remove
+  path: /instance_groups/name=prometheus2/jobs/name=bosh_alerts
+
+- type: remove
+  path: /instance_groups/name=prometheus2/jobs/name=cloudfoundry_alerts
+
+- type: remove
+  path: /variables/name=alertmanager_mesh_password?

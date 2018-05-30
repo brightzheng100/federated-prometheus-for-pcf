@@ -1,0 +1,10 @@
+# if one wants to have a centralized grafana only to visualize metrics, remove it from "agent" Prometheus
+
+- type: remove
+  path: /instance_groups/name=grafana
+
+- type: remove
+  path: /variables/name=grafana_password?
+
+- type: remove
+  path: /variables/name=grafana_secret_key?

@@ -1,0 +1,17 @@
+
+- type: replace
+  path: /instance_groups/name=prometheus2/azs
+  value: ((azs))
+  
+- type: replace
+  path: /instance_groups/name=prometheus2/networks
+  value:
+  - name: ((network))
+  
+- type: replace
+  path: /instance_groups/name=prometheus2/vm_type
+  value: ((vm_type))
+  
+- type: replace
+  path: /instance_groups/name=prometheus2/persistent_disk
+  value: ((persistent_disk))

@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: starkandwayne/concourse
+
+inputs:
+- name: federated-prometheus-for-pcf
+
+params:
+  opsman_url:
+  pcf_opsman_admin_username:
+  pcf_opsman_admin_password:
+  uaa_client_firehose_exporter_secret:
+  uaa_client_cf_exporter_secret:
+  uaa_client_bosh_exporter_secret:
+
+run:
+  path: federated-prometheus-for-pcf/pipeline-agent/tasks/create-uaa-clients.sh

@@ -8,14 +8,14 @@ image_resource:
 
 inputs:
 - name: federated-prometheus-for-pcf
-- name: pcf-bosh-creds
+
+outputs:
+- name: dynamic-params
 
 params:
-  deployment:
   opsman_url:
   pcf_opsman_admin_username:
   pcf_opsman_admin_password:
-  director_to_monitor:
 
 run:
-  path: federated-prometheus-for-pcf/pipeline-agent/tasks/delete-prometheus.sh
+  path: federated-prometheus-for-pcf/pipeline-agent/tasks/retrieve-params-from-opsman.sh

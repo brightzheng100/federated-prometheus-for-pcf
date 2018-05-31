@@ -1,0 +1,57 @@
+
+- type: replace
+  path: /instance_groups/name=prometheus2/azs
+  value: ((azs))
+- type: replace
+  path: /instance_groups/name=prometheus2/vm_type
+  value: ((vm_type_prometheus))
+- type: replace
+  path: /instance_groups/name=prometheus2/networks
+  value: ((network))
+- type: replace
+  path: /instance_groups/name=prometheus2/persistent_disk
+  value: ((persistent_disk_prometheus))
+
+- type: replace
+  path: /instance_groups/name=alertmanager/azs
+  value: ((azs))
+- type: replace
+  path: /instance_groups/name=alertmanager/vm_type
+  value: ((vm_type_alertmanager))
+- type: replace
+  path: /instance_groups/name=alertmanager/networks
+  value: ((network))
+
+- type: replace
+  path: /instance_groups/name=database/azs
+  value: ((azs))
+- type: replace
+  path: /instance_groups/name=database/vm_type
+  value: ((vm_type_database))
+- type: replace
+  path: /instance_groups/name=database/networks
+  value: ((network))
+- type: replace
+  path: /instance_groups/name=database/persistent_disk
+  value: ((persistent_disk_database))
+
+- type: replace
+  path: /instance_groups/name=grafana/azs
+  value: ((azs))
+- type: replace
+  path: /instance_groups/name=grafana/vm_type
+  value: ((vm_type_grafana))
+- type: replace
+  path: /instance_groups/name=grafana/networks
+  value: ((network))
+
+- type: replace
+  path: /instance_groups/name=nginx/azs
+  value: ((azs))
+- type: replace
+  path: /instance_groups/name=nginx/vm_type
+  value: ((vm_type_nginx))
+- type: replace
+  path: /instance_groups/name=nginx/networks
+  value: ((network))
+  

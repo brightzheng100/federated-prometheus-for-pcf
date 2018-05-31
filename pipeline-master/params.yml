@@ -1,0 +1,49 @@
+# Operations Manager credentials to set
+pcf_opsman_admin_username:
+pcf_opsman_admin_password:
+opsman_url:
+
+# Set to either opsman_bosh or external_bosh that one is going to deploy bosh_exporter
+# For external BOSH you need to provide the details below
+director_for_deployment: opsman_bosh
+
+# If you set director_for_deployment to external_bosh then you need to provide the Director details. Otherwise keep them empty
+external_bosh_address:
+external_bosh_client:
+external_bosh_client_secret:
+external_bosh_ca_cert:
+
+# set to something very secure! you won't need to use these passwords at all
+# or simply let CredHub to generate it and refer it by using ((xxx))
+uaa_client_firehose_exporter_secret:
+uaa_client_cf_exporter_secret:
+uaa_client_bosh_exporter_secret:
+
+# This will be the admin password to log in to Grafana GUI
+grafana_admin_password:
+# This will be the admin password to log in to Prometheus GUI
+prometheus_admin_password:
+# This will be the admin password to log in to Alertmanager GUI
+alertmanager_password:
+
+# AZ(s) to deploy to (as defined in the Director configuration)
+deploy_azs: [z1]
+# network to deploy to (as defined in the Director configuration)
+# one may set the static IP here
+deploy_network: [{name: default}]
+
+# Github token to authenticate with Github. You can generate one at https://github.com/settings/tokens
+github_token:
+
+#
+# Parameters below are fine if you are just kicking tires
+#
+
+# These values work for a small deployment on PCF. Change to adjust resources
+deploy_vm_type_micro: micro
+deploy_vm_type_small: small
+
+# arbitrary name for this environment (eg. 'prod')
+metrics_environment: pcf
+
+skip_ssl_verify: true

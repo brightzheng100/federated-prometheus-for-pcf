@@ -8,14 +8,14 @@ image_resource:
 
 inputs:
 - name: federated-prometheus-for-pcf
-- name: pcf-bosh-creds
 
 params:
-  deployment:
   opsman_url:
   pcf_opsman_admin_username:
   pcf_opsman_admin_password:
-  director_to_monitor:
+  uaa_client_firehose_exporter_secret:
+  uaa_client_cf_exporter_secret:
+  uaa_client_bosh_exporter_secret:
 
 run:
-  path: federated-prometheus-for-pcf/pipeline-agent/tasks/delete-prometheus.sh
+  path: federated-prometheus-for-pcf/pipeline-agent/tasks/create-uaa-clients.sh

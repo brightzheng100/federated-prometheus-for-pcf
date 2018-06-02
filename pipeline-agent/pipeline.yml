@@ -20,7 +20,7 @@ resources:
   source:
     uri: https://github.com/bosh-prometheus/prometheus-boshrelease.git
     branch: master
-    tag_filter: "v22.0.*"
+    tag_filter: "v22?0*"        #v22.0.x
 - name: prometheus-release-blob
   type: github-release
   source:
@@ -32,6 +32,7 @@ resources:
   source:
     user: bosh-prometheus
     repository: node-exporter-boshrelease
+    tag_filter: "v22?0*"        #v22.0.x
     access_token: ((github_token))
 - name: pcf-bosh-creds
   type: bosh-creds
@@ -46,7 +47,7 @@ resources:
 - name: bosh-deployment
   type: bosh-deploy
   source:
-    deployment: prometheus
+    deployment: ((deployment))
     target: ((deploy_bosh_target))
     client: ((deploy_bosh_admin))
     client_secret: ((deploy_bosh_admin_secret))
@@ -82,10 +83,9 @@ jobs:
     passed: [install-node-exporter]
   - get: prometheus-release-git
   - get: prometheus-release-blob
-    version: { tag: 'v22.0.2' }
   - get: pcf-bosh-creds
     params:
-      deployment: prometheus
+      deployment: ((deployment))
   - task: retrieve-params-from-opsman
     file: federated-prometheus-for-pcf/pipeline-agent/tasks/retrieve-params-from-opsman.yml
     params:
@@ -110,13 +110,11 @@ jobs:
       - federated-prometheus-for-pcf/ops-files/colocate_firehose_exporter.yml
       - federated-prometheus-for-pcf/ops-files/local_cf_exporter.yml
       vars:
+        deployment: ((deployment))
         azs: ((deploy_azs))
         network: ((deploy_network))
         vm_type: ((deploy_vm_type))
         persistent_disk: ((deploy_persistent_disk))
-        grafana_password: ((grafana_admin_password))
-        prometheus_password: ((prometheus_admin_password))
-        alertmanager_password: ((alertmanager_admin_password))
         metrics_environment: ((metrics_environment))
         uaa_client_firehose_exporter_secret: ((uaa_client_firehose_exporter_secret))
         uaa_clients_cf_exporter_secret: ((uaa_client_cf_exporter_secret))
@@ -126,54 +124,6 @@ jobs:
         - pcf-bosh-creds/pcf_bosh_director.yml
         - dynamic-params/params.yml
 
-# - name: deploy
-#   plan:
-#   - get: federated-prometheus-for-pcf
-#     #passed: [install-node-exporter]
-#   - get: prometheus-release-git
-#   - get: prometheus-release-blob
-#     version: { tag: 'v22.0.2' }
-#   - get: pcf-bosh-creds
-#     params:
-#       deployment: prometheus
-#   - task: retrieve-params-from-opsman
-#     file: federated-prometheus-for-pcf/pipeline-agent/tasks/retrieve-params-from-opsman.yml
-#     params:
-#       pcf_opsman_admin_username: ((pcf_opsman_admin_username))
-#       pcf_opsman_admin_password: ((pcf_opsman_admin_password))
-#       opsman_url: ((opsman_url))
-#   - put: bosh-deployment
-#     params:
-#       source_file: pcf-bosh-creds/((director_to_monitor)).json
-#       deployment: prometheus
-#       manifest: prometheus-release-git/manifests/prometheus.yml
-#       releases:
-#       - prometheus-release-blob/prometheus-*.tgz
-#       ops_files:
-#       - prometheus-release-git/manifests/operators/monitor-bosh.yml
-#       - prometheus-release-git/manifests/operators/enable-bosh-uaa.yml
-#       - prometheus-release-git/manifests/operators/monitor-cf.yml
-#       - prometheus-release-git/manifests/operators/monitor-node.yml
-#       - federated-prometheus-for-pcf/ops-files/prometheus_job.yml
-#       - federated-prometheus-for-pcf/ops-files/colocate_firehose_exporter.yml
-#       - federated-prometheus-for-pcf/ops-files/local_cf_exporter.yml
-#       vars:
-#         network: ((deploy_network))
-#         azs: ((deploy_azs))
-#         grafana_password: ((grafana_admin_password))
-#         prometheus_password: ((prometheus_admin_password))
-#         alertmanager_password: ((alertmanager_admin_password))
-#         vm_type_micro: ((deploy_vm_type_micro))
-#         vm_type_small: ((deploy_vm_type_small))
-#         metrics_environment: ((metrics_environment))
-#         uaa_client_firehose_exporter_secret: ((uaa_client_firehose_exporter_secret))
-#         uaa_clients_cf_exporter_secret: ((uaa_client_cf_exporter_secret))
-#         uaa_bosh_exporter_client_secret: ((uaa_client_bosh_exporter_secret))
-#         skip_ssl_verify: ((skip_ssl_verify))
-#       vars_files:
-#         - pcf-bosh-creds/pcf_bosh_director.yml
-#         - dynamic-params/params.yml
-
 - name: destroy
   plan:
   - get: federated-prometheus-for-pcf
@@ -181,7 +131,7 @@ jobs:
   - task: delete-deployment
     file: federated-prometheus-for-pcf/pipeline-agent/tasks/delete-prometheus.yml
     params:
-      deployment: prometheus
+      deployment: ((deployment))
       opsman_url: ((opsman_url))
       pcf_opsman_admin_username: ((pcf_opsman_admin_username))
       pcf_opsman_admin_password: ((pcf_opsman_admin_password))

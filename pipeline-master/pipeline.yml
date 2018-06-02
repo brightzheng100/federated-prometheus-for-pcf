@@ -15,17 +15,18 @@ resources:
   source:
     uri: https://github.com/bosh-prometheus/prometheus-boshrelease.git
     branch: master
-    tag_filter: "v22.0.*"
+    tag_filter: "v22?0*"        #v22.0.x
 - name: prometheus-release-blob
   type: github-release
   source:
     user: bosh-prometheus
     repository: prometheus-boshrelease
+    tag_filter: "v22?0*"        #v22.0.x
     access_token: ((github_token))
 - name: bosh-deployment
   type: bosh-deploy
   source:
-    deployment: prometheus
+    deployment: ((deployment))
     target: ((deploy_bosh_target))
     client: ((deploy_bosh_admin))
     client_secret: ((deploy_bosh_admin_secret))
@@ -35,19 +36,8 @@ jobs:
 - name: deploy
   plan:
   - get: federated-prometheus-for-pcf
-    passed: [install-node-exporter]
   - get: prometheus-release-git
   - get: prometheus-release-blob
-    version: { tag: 'v22.0.2' }
-  - get: pcf-bosh-creds
-    params:
-      deployment: prometheus
-  - task: retrieve-params-from-opsman
-    file: federated-prometheus-for-pcf/pipeline-agent/tasks/retrieve-params-from-opsman.yml
-    params:
-      pcf_opsman_admin_username: ((pcf_opsman_admin_username))
-      pcf_opsman_admin_password: ((pcf_opsman_admin_password))
-      opsman_url: ((opsman_url))
   - put: bosh-deployment
     params:
       manifest: prometheus-release-git/manifests/prometheus.yml
@@ -55,10 +45,11 @@ jobs:
       - prometheus-release-blob/prometheus-*.tgz
       ops_files:
       - federated-prometheus-for-pcf/ops-files/prometheus_master_job.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus_master_federation.yml
       vars:
+        deployment: ((deployment))
         azs: ((deploy_azs))
         network: ((deploy_network))
-        vm_type: ((deploy_vm_type))
         vm_type_prometheus: ((deploy_vm_type_prometheus))
         vm_type_alertmanager: ((deploy_vm_type_alertmanager))
         vm_type_database: ((deploy_vm_type_database))
@@ -67,16 +58,15 @@ jobs:
         persistent_disk_prometheus: ((deploy_persistent_disk_prometheus))
         persistent_disk_database: ((deploy_persistent_disk_database))
         skip_ssl_verify: ((skip_ssl_verify))
+        grafana_password: ((grafana_admin_password))
+        prometheus_password: ((prometheus_admin_password))
+        alertmanager_password: ((alertmanager_admin_password))
+        federated_agents: ((federated_agents))
 
 - name: destroy
   plan:
-  - get: federated-prometheus-for-pcf
-  - get: pcf-bosh-creds
-  - task: delete-deployment
-    file: federated-prometheus-for-pcf/pipeline-agent/tasks/delete-prometheus.yml
+  - put: bosh-deployment
     params:
-      deployment: prometheus
-      opsman_url: ((opsman_url))
-      pcf_opsman_admin_username: ((pcf_opsman_admin_username))
-      pcf_opsman_admin_password: ((pcf_opsman_admin_password))
-      director_to_monitor: ((director_to_monitor))
+      delete:
+        enabled: true
+        force: true

@@ -8,11 +8,7 @@
     metrics_path: /federate
     scheme: http
     params:
-      'match[]':
-        - '{job="bosh"}'
-        - '{job="cf_exporter"}'
-        - '{job="firehose_exporter"}'
-        - '{job="node"}'
+      match[]:
     static_configs:
     - targets: ((federated_agents))
 

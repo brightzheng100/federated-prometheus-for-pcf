@@ -46,7 +46,7 @@ $ bosh -e gcp -d prometheus-agent ../prometheus-boshrelease/manifests/prometheus
 Assuming there is already a "target" called `gcp`.
 ```
 $ fly -t gcp login -k
-$ fly -t gcp set-pipeline -p promethues-agent \
+$ fly -t gcp set-pipeline -p prometheus-agent \
     -c pipeline-agent/pipeline.yml \
     -l _agent-params.yml
 ```

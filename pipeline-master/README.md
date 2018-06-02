@@ -9,21 +9,26 @@ Assuming
 Then you can deploy it like this:
 ```
 $ bosh -e lite -d prometheus-agent ../prometheus-boshrelease/manifests/prometheus.yml \
-      -o ops-files/prometheus_job.yml \
-      -o ops-files/remove-alertmanager.yml \
-      -o ops-files/remove-grafana.yml \
-      -o ops-files/remove-nginx.yml \
-      -o ops-files/colocate_database.yml \
-      -o ops-files/colocate_firehose_exporter.yml \
-      -o ops-files/local_cf_exporter.yml
+      -o ops-files/prometheus_master_job.yml \
+      -o ops-files/prometheus_master_federation.yml
 ```
 
 ### Set Up Pipline
 
-Assuming there is already a "target" called `lite`.
+Assuming there is already a "target" called `gcp`.
 ```
-$ fly -t lite login -k
-$ fly -t lite set-pipeline -p promethues-agent \
-    -c pipeline-agent/pipeline.yml \
-    -l _agent-params.yml
+$ fly -t gcp login -k
+$ fly -t gcp set-pipeline -p prometheus-master \
+    -c pipeline-master/pipeline.yml \
+    -l _master-params.yml
+```
+
+
+### How To Test?
+
+```
+$ curl -v -G --data-urlencode 'match[]={job="bosh"}' http://{prometheus-agent}:9090/federate
+
+curl -v -G --data-urlencode 'match[]={job="bosh"}' http://104.197.73.249:9090/federate
+
 ```

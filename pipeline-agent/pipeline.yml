@@ -102,13 +102,13 @@ jobs:
       - prometheus-release-git/manifests/operators/enable-bosh-uaa.yml
       - prometheus-release-git/manifests/operators/monitor-cf.yml
       - prometheus-release-git/manifests/operators/monitor-node.yml
-      - federated-prometheus-for-pcf/ops-files/prometheus_agent_job.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-agent-job.yml
       - federated-prometheus-for-pcf/ops-files/remove-alertmanager.yml
       - federated-prometheus-for-pcf/ops-files/remove-grafana.yml
       - federated-prometheus-for-pcf/ops-files/remove-nginx.yml
-      - federated-prometheus-for-pcf/ops-files/colocate_postgres.yml
-      - federated-prometheus-for-pcf/ops-files/colocate_firehose_exporter.yml
-      - federated-prometheus-for-pcf/ops-files/local_cf_exporter.yml
+      - federated-prometheus-for-pcf/ops-files/colocate-postgres.yml
+      - federated-prometheus-for-pcf/ops-files/colocate-firehose-exporter.yml
+      - federated-prometheus-for-pcf/ops-files/local-cf-exporter.yml
       vars:
         deployment: ((deployment))
         azs: ((deploy_azs))

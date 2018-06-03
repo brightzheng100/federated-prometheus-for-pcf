@@ -44,8 +44,15 @@ jobs:
       releases:
       - prometheus-release-blob/prometheus-*.tgz
       ops_files:
-      - federated-prometheus-for-pcf/ops-files/prometheus_master_job.yml
-      - federated-prometheus-for-pcf/ops-files/prometheus_master_federation.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-master-job.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-master-federation.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-master-dashboards-bosh.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-master-dashboards-cf.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-master-dashboards-node.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-master-scrape-bosh.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-master-scrape-cf.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-master-scrape-firehose.yml
+      - federated-prometheus-for-pcf/ops-files/prometheus-master-scrape-node.yml
       vars:
         deployment: ((deployment))
         azs: ((deploy_azs))

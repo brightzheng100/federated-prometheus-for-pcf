@@ -31,22 +31,25 @@ $ bosh -e gcp -d prometheus-agent ../prometheus-boshrelease/manifests/prometheus
       -o ../prometheus-boshrelease/manifests/operators/enable-bosh-uaa.yml \
       -o ../prometheus-boshrelease/manifests/operators/monitor-cf.yml \
       -o ../prometheus-boshrelease/manifests/operators/monitor-node.yml \
-      -o ops-files/prometheus_job.yml \
+      -o ops-files/prometheus-agent-job.yml \
       -o ops-files/remove-alertmanager.yml \
       -o ops-files/remove-grafana.yml \
       -o ops-files/remove-nginx.yml \
-      -o ops-files/colocate_postgres.yml \
-      -o ops-files/colocate_firehose_exporter.yml \
-      -o ops-files/local_cf_exporter.yml
+      -o ops-files/colocate-postgres.yml \
+      -o ops-files/colocate-firehose-exporter.yml \
+      -o ops-files/local-cf-exporter.yml \
+      -l pipeline-agent/params.yml
 ```
 
 
 ### Set Up Pipline
 
 Assuming there is already a "target" called `gcp`.
+Copy the params.yml to another file to make changes before flying.
 ```
+$ cp pipeline-agent/params.yml _params-agent.yml
 $ fly -t gcp login -k
 $ fly -t gcp set-pipeline -p prometheus-agent \
     -c pipeline-agent/pipeline.yml \
-    -l _agent-params.yml
+    -l _params-agent.yml
 ```

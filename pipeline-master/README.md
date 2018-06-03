@@ -9,8 +9,16 @@ Assuming
 Then you can deploy it like this:
 ```
 $ bosh -e lite -d prometheus-agent ../prometheus-boshrelease/manifests/prometheus.yml \
-      -o ops-files/prometheus_master_job.yml \
-      -o ops-files/prometheus_master_federation.yml
+      -o ops-files/prometheus-master-job.yml \
+      -o ops-files/prometheus-master-federation.yml \
+      -o ops-files/prometheus-master-dashboards-bosh.yml \
+      -o ops-files/prometheus-master-dashboards-cf.yml \
+      -o ops-files/prometheus-master-dashboards-node.yml \
+      -o ops-files/prometheus-master-scrape-bosh.yml \
+      -o ops-files/prometheus-master-scrape-cf.yml \
+      -o ops-files/prometheus-master-scrape-firehose.yml \
+      -o ops-files/prometheus-master-scrape-node.yml \
+      -l pipeline-master/params.yml
 ```
 
 ### Set Up Pipline
@@ -30,5 +38,6 @@ $ fly -t gcp set-pipeline -p prometheus-master \
 $ curl -v -G --data-urlencode 'match[]={job="bosh"}' http://{prometheus-agent}:9090/federate
 
 curl -v -G --data-urlencode 'match[]={job="bosh"}' http://104.197.73.249:9090/federate
+curl -v -G --data-urlencode 'match[]={job="bosh"}' http://104.197.73.249:9090/metrics
 
 ```

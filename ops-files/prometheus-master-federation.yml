@@ -7,8 +7,6 @@
     honor_labels: true
     metrics_path: /federate
     scheme: http
-    params:
-      match[]:
     static_configs:
     - targets: ((federated_agents))
 

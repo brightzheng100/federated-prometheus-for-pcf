@@ -8,11 +8,6 @@ root_dir=$(cd "$(dirname "$0")/.." && pwd)
 
 source ${root_dir}/tasks/common.sh
 
-login_to_director pcf-bosh-creds ${director_to_monitor}
-
-echo "Deleting ${deployment} deployment"
-bosh2 delete-deployment -d ${deployment} --non-interactive
-
 login_to_cf_uaa
 
 echo "Deleting Prometheus UAA firehose_exporter Client..."

@@ -18,4 +18,4 @@ params:
   director_to_monitor:
 
 run:
-  path: federated-prometheus-for-pcf/pipeline-agent/tasks/delete-prometheus.sh
+  path: federated-prometheus-for-pcf/pipeline-agent/tasks/delete-uaa-clients.sh

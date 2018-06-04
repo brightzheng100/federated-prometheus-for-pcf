@@ -127,12 +127,17 @@ jobs:
 - name: destroy
   plan:
   - get: federated-prometheus-for-pcf
-  - get: pcf-bosh-creds
-  - task: delete-deployment
-    file: federated-prometheus-for-pcf/pipeline-agent/tasks/delete-prometheus.yml
+  #- get: pcf-bosh-creds
+  - task: delete-uaa-clients
+    file: federated-prometheus-for-pcf/pipeline-agent/tasks/delete-uaa-clients.yml
     params:
       deployment: ((deployment))
       opsman_url: ((opsman_url))
       pcf_opsman_admin_username: ((pcf_opsman_admin_username))
       pcf_opsman_admin_password: ((pcf_opsman_admin_password))
       director_to_monitor: ((director_to_monitor))
+  - put: bosh-deployment
+    params:
+      delete:
+        enabled: true
+        force: true

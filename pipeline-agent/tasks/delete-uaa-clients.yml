@@ -8,7 +8,6 @@ image_resource:
 
 inputs:
 - name: federated-prometheus-for-pcf
-- name: pcf-bosh-creds
 
 params:
   deployment:

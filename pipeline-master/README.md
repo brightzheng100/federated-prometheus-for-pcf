@@ -1,4 +1,4 @@
-## Pipeline for Provisioning the "Master" Deployment for Prometheus Components
+## Pipeline for Provisioning the "Master" Deployment
 
 ### Install "Master" Prometheus Manually
 
@@ -24,20 +24,11 @@ $ bosh -e lite -d prometheus-agent ../prometheus-boshrelease/manifests/prometheu
 ### Set Up Pipline
 
 Assuming there is already a "target" called `gcp`.
+Copy the params.yml to another file to configure parameters before flying.
 ```
+$ cp pipeline-master/params.yml _params-master.yml
 $ fly -t gcp login -k
 $ fly -t gcp set-pipeline -p prometheus-master \
     -c pipeline-master/pipeline.yml \
-    -l _master-params.yml
-```
-
-
-### How To Test?
-
-```
-$ curl -v -G --data-urlencode 'match[]={job="bosh"}' http://{prometheus-agent}:9090/federate
-
-curl -v -G --data-urlencode 'match[]={job="bosh"}' http://104.197.73.249:9090/federate
-curl -v -G --data-urlencode 'match[]={job="bosh"}' http://104.197.73.249:9090/metrics
-
+    -l _params-master.yml
 ```
